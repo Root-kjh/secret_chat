@@ -15,9 +15,9 @@ public class func{
     3 Chat
     4 recv_public_key
     */
-    String msg;
+    byte msg;
     static crypto c=new crypto();
-    public void func(String msg){
+    public void func(byte msg){
         this.msg=msg;
     }
 
@@ -36,7 +36,7 @@ public class func{
     }
 
     public void recv_public_key(){
-
+        System.out.println(this.msg);
     }
 
     public byte send_public_key(){
