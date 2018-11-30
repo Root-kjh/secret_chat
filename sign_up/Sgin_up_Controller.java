@@ -9,6 +9,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 
+
 public class Sgin_up_Controller {
 	@FXML
 	private TextField ID, name;
@@ -32,7 +33,7 @@ public class Sgin_up_Controller {
 		if(password.getText().equals(password_R.getText())) {
 			
 		}else {
-			
+			password.setStyle("-fx-border-color: RED;");
 		}
 	}
 

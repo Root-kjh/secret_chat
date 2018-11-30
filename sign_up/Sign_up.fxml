@@ -14,7 +14,7 @@
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="sign_up.Sgin_up_Controller">
 	<children>
-		<AnchorPane prefHeight="460.0" prefWidth="281.0">
+		<AnchorPane stylesheets="/index/index.css" prefHeight="460.0" prefWidth="281.0">
 			<children>
 				<TextField fx:id="ID" layoutX="50.0" layoutY="201.0"
 					prefHeight="32.0" prefWidth="250.0" promptText="아이디">
