@@ -1,3 +1,6 @@
+package data.func;
+
+import java.math.BigInteger;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -15,37 +18,38 @@ public class func{
     3 Chat
     4 recv_public_key
     */
-    byte msg;
+    byte[] msg;
     static crypto c=new crypto();
-    public void func(byte msg){
+    public void get_msg(byte[] msg){
         this.msg=msg;
     }
 
     public byte send_block(){
-        byte packet=null;
+        byte packet=(Byte) null;
 
         return packet;
     }
 
     public void recv_block(){
-
+    	
     }
     
     public void chat(){
-
+    	System.out.println(msg.toString());
     }
 
     public void recv_public_key(){
         System.out.println(this.msg);
+        c.get_enkey(new BigInteger(msg.toString()));
     }
 
-    public byte send_public_key(){
-        byte packet=null;
+    public BigInteger send_public_key(){
+        BigInteger packet= null;
         PublicKey publickey=null;
         PrivateKey privatekey=null;
 
         SecureRandom secureRandom=new SecureRandom();
-        KeyPairGenerator keyPairGenerator;
+        KeyPairGenerator keyPairGenerator = null;
 
         try{
             keyPairGenerator=keyPairGenerator.getInstance("RSA");
@@ -57,7 +61,7 @@ public class func{
 
             KeyFactory keyFactory=KeyFactory.getInstance("RSA");
             RSAPublicKeySpec rsaPublicKeySpec=keyFactory.getKeySpec(publickey, RSAPublicKeySpec.class);
-            RSAPrivateCrtKeySpec rsaPrivateCrtKeySpec=keyFactory.getKeySpec(privatekey, RSAPublicKeySpec.class);
+            RSAPublicKeySpec rsaPrivateCrtKeySpec=keyFactory.getKeySpec(privatekey, RSAPublicKeySpec.class);
             packet=rsaPublicKeySpec.getModulus();
             c.get_dekey(rsaPrivateCrtKeySpec.getModulus());
         }catch(Exception e){

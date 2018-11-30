@@ -1,3 +1,5 @@
+package data.func;
+
 import java.math.BigInteger;
 
 class crypto{
@@ -12,13 +14,13 @@ class crypto{
     }
 
     public byte encrypt(byte msg){
-        byte packet=null;
+        byte packet=(Byte) null;
 
         return packet;
     }
 
     public byte decrypt(byte packet){
-        byte msg=null;
+        byte msg=(Byte) null;
 
         return msg;
     }
