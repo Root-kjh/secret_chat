@@ -8,32 +8,28 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity"
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
 	minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0"
 	prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.171"
 	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="title_bar.Titlebar_Controller">
-	<children>
-		<BorderPane onMouseDragged="#dragged"
-			onMousePressed="#pressed" prefHeight="200.0" prefWidth="200.0"
-			style="-fx-background-color: #130f40;" stylesheets="/index/index.css">
-			<top>
-				<HBox alignment="CENTER_RIGHT"
-					style="-fx-background-color: #535c68;"
-					BorderPane.alignment="CENTER">
-					<padding>
-						<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-					</padding>
-					<children>
-						<Button fx:id="min" mnemonicParsing="false"
-							onMouseClicked="#min" styleClass="title_bar" text="●" />
-						<Button fx:id="max" mnemonicParsing="false"
-							onMouseClicked="#max" styleClass="title_bar" text="●" />
-						<Button fx:id="close" mnemonicParsing="false"
-							onMouseClicked="#close" styleClass="title_bar" text="●" />
-					</children>
-				</HBox>
-			</top>
-		</BorderPane>
-	</children>
-</StackPane>
+	fx:controller="title_bar.Titlebar_Controller"
+	style="-fx-background-color: #130f40;" stylesheets="/index/index.css">
+	<top>
+		<HBox alignment="CENTER_RIGHT" onMouseDragged="#dragged"
+			onMousePressed="#pressed" style="-fx-background-color: #535c68;"
+			BorderPane.alignment="CENTER">
+			<padding>
+				<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+			</padding>
+			<children>
+				<Button fx:id="min" mnemonicParsing="false"
+					onMouseClicked="#min" styleClass="title_bar" text="●" />
+				<Button fx:id="max" mnemonicParsing="false"
+					onMouseClicked="#max" styleClass="title_bar" text="●" />
+				<Button fx:id="close" mnemonicParsing="false"
+					onMouseClicked="#close" styleClass="title_bar" text="●" />
+			</children>
+		</HBox>
+	</top>
+</BorderPane>
