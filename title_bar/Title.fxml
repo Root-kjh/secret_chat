@@ -9,16 +9,16 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.Label?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
-	minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0"
-	prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.171"
+<BorderPane fx:id="border" maxHeight="-Infinity"
+	maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+	prefHeight="500.0" prefWidth="700.0"
+	xmlns="http://javafx.com/javafx/8.0.171"
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="title_bar.Titlebar_Controller"
-	style="-fx-background-color: #130f40;" stylesheets="/index/index.css">
+	stylesheets="/index/index.css">
 	<top>
-		<HBox alignment="CENTER_RIGHT" onMouseDragged="#dragged"
-			onMousePressed="#pressed" style="-fx-background-color: #535c68;"
-			BorderPane.alignment="CENTER">
+		<HBox fx:id = "title_bar" alignment="CENTER_RIGHT" onMouseDragged="#dragged"
+			onMousePressed="#pressed" BorderPane.alignment="CENTER">
 			<padding>
 				<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
 			</padding>
@@ -33,6 +33,6 @@
 		</HBox>
 	</top>
 	<center>
-		<fx:include source="../login/Login.fxml" fx:id="main"/>
+		<fx:include source="../login/Login.fxml" fx:id="main" />
 	</center>
 </BorderPane>

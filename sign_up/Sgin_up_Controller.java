@@ -17,7 +17,7 @@ public class Sgin_up_Controller {
 	@FXML
 	private PasswordField password, password_R;
 	@FXML
-	private Button sign_up_submit, go_login;
+	private Button submit, go_login;
 	@FXML
 	private StackPane Sign_up;
 

@@ -4,10 +4,16 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class Titlebar_Controller {
 	double x, y, scenex, sceney;
+	@FXML
+	private BorderPane border;
+	@FXML
+	private HBox title_bar;
 	@FXML
 	private Button min, max, close;
 	boolean full_screen_flag=false;
