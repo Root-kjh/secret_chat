@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 
 
@@ -23,9 +24,9 @@ public class Sgin_up_Controller {
 	public void Back(ActionEvent event) throws Exception {
 
 		Parent par2 = FXMLLoader.load(getClass().getResource("/login/Login.fxml"));
-		StackPane stackpane1 = (StackPane) go_login.getScene().getRoot();
-		stackpane1.getChildren().remove(Sign_up);
-		stackpane1.getChildren().add(par2);
+		BorderPane main_border_pane = (BorderPane) go_login.getScene().getRoot();
+		main_border_pane.getChildren().remove(Sign_up);
+		main_border_pane.setCenter(par2);
 
 	}
 	

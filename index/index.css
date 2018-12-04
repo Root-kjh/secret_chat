@@ -18,3 +18,8 @@
  #close{
 	-fx-text-fill: red;
 }
+
+#main{
+    -fx-alignment: center ;
+    -fx-padding: 10 ;
+}

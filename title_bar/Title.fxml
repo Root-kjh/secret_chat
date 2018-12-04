@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
-
+<?import javafx.scene.control.Label?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
 	minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0"
@@ -32,5 +32,7 @@
 			</children>
 		</HBox>
 	</top>
-<fx:include source="../login/Login.fxml" fx:id="main"/>
+	<center>
+		<fx:include source="../login/Login.fxml" fx:id="main"/>
+	</center>
 </BorderPane>
