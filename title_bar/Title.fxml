@@ -32,4 +32,5 @@
 			</children>
 		</HBox>
 	</top>
+<fx:include source="../login/Login.fxml" fx:id="main"/>
 </BorderPane>

@@ -19,15 +19,12 @@ public class Login extends Application {
 
 		Font.loadFont(getClass().getResourceAsStream("Roboto-Black.ttf"), 10);
 
-		Parent parent = FXMLLoader.load(getClass().getResource("/login/Login.fxml"));
 		Parent title_bar=FXMLLoader.load(getClass().getResource("/title_bar/Title.fxml"));
 		
 		Scene title_bar_scene= new Scene(title_bar);
-		Scene scene = new Scene(parent);
 
 		stage.initStyle(StageStyle.TRANSPARENT);
 		stage.setScene(title_bar_scene);
-		stage.setScene(scene);
 		stage.show();
 
 	}

@@ -10,7 +10,7 @@ public class Titlebar_Controller {
 	double x, y, scenex, sceney;
 	@FXML
 	private Button min, max, close;
-	
+	boolean full_screen_flag=false;
 
 	@FXML
 	void dragged(MouseEvent event) {
@@ -44,8 +44,13 @@ public class Titlebar_Controller {
 	@FXML
 	void max(MouseEvent event) {
 		Stage sta = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		if(full_screen_flag) {
+			sta.setFullScreen(false);
+			full_screen_flag=false;
+		}else {
 		sta.setFullScreenExitHint("Secret_chat is Full Screen Mode!!!");
-		
 		sta.setFullScreen(true);
-	}
+		full_screen_flag=true;
+		}
+		}
 }
