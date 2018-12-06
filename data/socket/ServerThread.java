@@ -58,13 +58,13 @@ class ServerThread implements Runnable{
                 f.get_msg(msg);
                 switch (msg[0]) {
                     case '1':
-                        bw.write('2'+f.send_block());
+                        bw.write("2"+f.send_block());
                         break;
                     case '2':
                         f.recv_block();
                         break;
                     case '3':
-                        f.chat();
+                        f.recv_chat();
                         break;
                     case '4':
                         f.recv_public_key();
