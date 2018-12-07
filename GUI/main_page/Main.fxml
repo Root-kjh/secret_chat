@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="453"
+	prefWidth="500" xmlns="http://javafx.com/javafx/8.0.171"
+	xmlns:fx="http://javafx.com/fxml/1" stylesheets="/GUI/index/index.css" fx:id="main_pane">
+	<children>
+		<ListView fx:id="listview" prefWidth="500" prefHeight="453">
+		
+		</ListView>
+	</children>
+</StackPane>
