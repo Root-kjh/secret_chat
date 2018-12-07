@@ -5,11 +5,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-
 
 public class Sgin_up_Controller {
 	@FXML
@@ -20,6 +21,10 @@ public class Sgin_up_Controller {
 	private Button submit, go_login;
 	@FXML
 	private StackPane Sign_up;
+	@FXML
+	private Label label;
+
+	private int IDmaxlength = 10, NameMaxlength = 20;
 
 	public void Back(ActionEvent event) throws Exception {
 
@@ -29,12 +34,41 @@ public class Sgin_up_Controller {
 		main_border_pane.setCenter(par2);
 
 	}
-	
-	public void Sign_up_submit(ActionEvent event) throws Exception{
-		if(password.getText().equals(password_R.getText())) {
-			
-		}else {
+
+	public void Sign_up_submit(ActionEvent event) throws Exception {
+		if (ID.getText().length() >= IDmaxlength) {
+			label.setText("아이디는 10글자 이하로 입력해 주시기 바랍니다.");
+			label.setPrefWidth(300.0);
+			submit.setLayoutY(380.0);
+			go_login.setLayoutY(380.0);
+			ID.setText(ID.getText());
+			ID.setStyle("-fx-border-color: RED;");
+		} else if (name.getText().length() >= NameMaxlength) {
+			label.setText("이름은 20글자 이하로 입력해 주시기 바랍니다.");
+			label.setPrefWidth(300.0);
+			submit.setLayoutY(380.0);
+			go_login.setLayoutY(380.0);
+			name.setText(name.getText());
+			name.setStyle("-fx-border-color: RED;");
+		} else if (password.getText().equals(password_R.getText())) {
+
+		} else {
 			password.setStyle("-fx-border-color: RED;");
+		}
+
+	}
+
+	@FXML
+	void ID_Limit(KeyEvent evnet) throws Exception {
+		if (ID.getText().length() >= IDmaxlength) {
+			ID.setText(ID.getText().substring(0, 9));
+		}
+	}
+
+	@FXML
+	void name_Limit(KeyEvent evnet) throws Exception {
+		if (name.getText().length() >= NameMaxlength) {
+			name.setText(name.getText().substring(0, 19));
 		}
 	}
 
