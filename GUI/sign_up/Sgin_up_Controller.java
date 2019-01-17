@@ -1,6 +1,13 @@
 package GUI.sign_up;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.URL;
+
 import data.func.func;
+import data.socket.send_block_socket;
+import data.socket.server_conn;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -54,7 +61,17 @@ public class Sgin_up_Controller {
 		} else if (!password.getText().equals(password_R.getText())) {
 			password.setStyle("-fx-border-color: RED;");
 		} else {
+			URL ipAdress = new URL("http://myexternalip.com/raw");
+			BufferedReader in = new BufferedReader(new InputStreamReader(ipAdress.openStream()));
+			String ip = in.readLine();
+			func f=new func();
 			
+			new server_conn();
+			
+			f.syn_block(ip);
+			System.out.println("syn_block");
+			f.add_block(password.getText(), ip, name.getText(), ID.getText());
+			f.syn_block(ip);
 		}
 
 	}
