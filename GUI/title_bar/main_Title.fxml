@@ -44,8 +44,6 @@
 				</GridPane>
 				<Button fx:id="min" mnemonicParsing="false"
 					onMouseClicked="#min" styleClass="title_bar" text="●" />
-				<Button fx:id="max" mnemonicParsing="false"
-					onMouseClicked="#max" styleClass="title_bar" text="●" />
 				<Button fx:id="close" mnemonicParsing="false"
 					onMouseClicked="#close" styleClass="title_bar" text="●" />
 			</children>

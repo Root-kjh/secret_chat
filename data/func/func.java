@@ -1,9 +1,9 @@
 package data.func;
 
-import java.awt.font.NumericShaper.Range;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -91,15 +91,16 @@ public class func {
 			if (!i.equals(my_ip))
 				main.ip_s.add(i);
 		}
+		System.out.println(main.ip_s);
 	}
 
 	public void syn_block(String ip) {
 		for (String b : main.ip_s) {
 			try {
-				Socket get_socket = new Socket(b, 52994);
+				Socket get_socket = new Socket(b, 3141);
 				new get_block_socket(get_socket);
 
-				Socket send_socket = new Socket(b, 52994);
+				Socket send_socket = new Socket(b, 3141);
 				new send_block_socket(send_socket);
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -163,7 +164,6 @@ public class func {
 	}
 
 	public void add_block(String pw, String ip, String name, String id) {
-		System.out.println("Test");
 		ArrayList<String> file_name = new ArrayList<String>();
 		file_name = (ArrayList<String>) get_file_name(get_chain());
 		System.out.println(file_name);
@@ -199,10 +199,24 @@ public class func {
 				count--;
 			}
 			System.arraycopy(id_byte, 0, file, 224, 10);
-			fos = new FileOutputStream("src\\block\\" + sha256(file));
+			fos = new FileOutputStream("block\\" + sha256(file));
 			fos.write(file);
+			fos.close();
 			
-			
+			fos=new FileOutputStream("block\\index");
+			byte[] temp=get_index();
+			byte[] index_byte=new byte[temp.length+64];
+			String test=sha256(file);
+			System.arraycopy(temp, 0, index_byte, 0, temp.length);
+			System.arraycopy(test, 0, index_byte, (file_count*64)+4, 64);
+			file_count+=1;
+			System.arraycopy(Integer.toString(file_count, 16), 0, index_byte, 0, 4);
+			System.out.println("==============file=====================");
+			for (byte b : index_byte) {
+				System.out.print(b+" ");
+			}
+			System.out.println("\n===========================================");
+			fos.write(index_byte);
 			fos.close();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -272,7 +286,6 @@ public class func {
 		md.reset();
 		md.update(msg);
 		String toReturn = String.format("%040x", new BigInteger(1, md.digest()));
-		System.out.println(toReturn);
 		return toReturn;
 	}
 
@@ -281,7 +294,6 @@ public class func {
 		md.reset();
 		md.update(msg.getBytes("utf-8"));
 		String toReturn = String.format("%040x", new BigInteger(1, md.digest()));
-		System.out.println(toReturn);
 		return toReturn.getBytes();
 	}
 
@@ -323,7 +335,7 @@ public class func {
 	private int get_block_count() {
 		byte[] count = new byte[4];
 		try {
-			File path = new File("src\\block\\index");
+			File path = new File("block\\index");
 			fis = new FileInputStream(path);
 			fis.read(count, 0, 4);
 			fis.close();
@@ -334,23 +346,33 @@ public class func {
 		return (int) byteToint(count);
 	}
 
+	private byte[] get_index() {
+		byte[] temp = null;
+		try {
+			File index = new File("block\\index");
+			fis = new FileInputStream(index);
+			temp = new byte[(int) index.length()];
+			fis.read(temp);
+			fis.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return temp;
+	}
+	
 	private byte[] get_chain() {
 		byte[] temp;
 		byte[] chain = null;
 		int count = 0;
 		try {
-			System.out.println("test");
-			File index = new File("src\\block\\index");
-			fis = new FileInputStream(index);
-			temp = new byte[(int) index.length()];
-			fis.read(temp);
-			fis.close();
+			temp=get_index();
 			chain = new byte[temp.length + (byteToint(substr_byte(temp, 0, 3)) * 234)];
 			System.arraycopy(temp, 0, chain, count, temp.length);
 			count += temp.length;
 			System.out.println("==============chain=====================");
 			for (byte b : chain) {
-				System.out.print(b);
+				System.out.print(b+" ");
 			}
 			System.out.println("\n===========================================");
 			List<String> file_name = new ArrayList<String>();
@@ -359,14 +381,14 @@ public class func {
 				System.out.println(string);
 			}
 			for (String fn : file_name) {
-				fis = new FileInputStream("src\\block\\" + fn);
+				fis = new FileInputStream("block\\" + fn);
 				temp = new byte[234];
 				fis.read(temp);
 				System.arraycopy(temp, 0, chain, count, 234);
 				count += temp.length;
 				System.out.println("==============chain=====================");
 				for (byte b : chain) {
-					System.out.print(b);
+					System.out.print(b+" ");
 				}
 				System.out.println("\n===========================================");
 				fis.close();

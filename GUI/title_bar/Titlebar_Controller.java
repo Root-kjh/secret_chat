@@ -16,10 +16,9 @@ public class Titlebar_Controller {
 	@FXML
 	private HBox title_bar;
 	@FXML
-	private Button min, max, close;
+	private Button min, close;
 	@FXML
 	private Text title_text;
-	boolean full_screen_flag=false;
 	@FXML
 	void dragged(MouseEvent event) {
 		Stage sta = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -39,8 +38,7 @@ public class Titlebar_Controller {
 
 	@FXML
 	void close(MouseEvent event) {
-		Stage sta = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		sta.close();
+		System.exit(0);
 	}
 
 	@FXML
@@ -48,19 +46,4 @@ public class Titlebar_Controller {
 		Stage sta = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		sta.setIconified(true);
 	}
-
-	@FXML
-	void max(MouseEvent event) {
-		Stage sta = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		
-		if(full_screen_flag) {
-			sta.setFullScreen(false);
-			full_screen_flag=false;
-		}else {
-		sta.setFullScreenExitHint("Secret_chat is Full Screen Mode!!!");
-		sta.setFullScreen(true);
-		full_screen_flag=true;
-		}
-		
-		}
 }
