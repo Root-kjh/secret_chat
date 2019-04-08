@@ -31,13 +31,10 @@ class crypto {
 			cipher = Cipher.getInstance("RSA");
 			cipher.init(Cipher.ENCRYPT_MODE, enkey);
 			if (msg_length > 245) {
+				packet = new byte[((int) Math.ceil(msg_length / 245.0) * 256)];
 				while (count <= msg_length) {
-					if (msg_length > (count + 245)) {
-						temp = new byte[245];
-						packet = new byte[((int) Math.ceil(msg_length / 245.0) * 256)];
-					} else
-						temp = new byte[msg_length - count];
-					System.arraycopy(msg, count, temp, 0, temp.length);
+					temp = new byte[245];
+					System.arraycopy(msg, count, temp, 0,((msg.length-count>245)?245:msg.length-count));
 					packet_temp = cipher.doFinal(temp);
 					System.arraycopy(packet_temp, 0, packet, packet_count, 256);
 					count += 245;
@@ -84,7 +81,6 @@ class crypto {
 				msg = cipher.doFinal(packet);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return msg;
