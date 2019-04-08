@@ -69,11 +69,9 @@ public class Sgin_up_Controller {
 			new server_conn();
 			
 			f.syn_block(ip);
-			System.out.println("syn_block");
 			f.add_block(password.getText(), ip, name.getText(), ID.getText());
-			System.out.println("add_block");
 			f.syn_block(ip);
-			System.out.println("syn_block");
+			//로그인창으로 자동이동
 		}
 
 	}

@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.net.Socket;
 import java.net.URL;
+import java.nio.ByteBuffer;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -123,7 +124,6 @@ public class func {
 				save_chain(this.msg);
 			}
 		}
-		return;
 	}
 
 	public void recv_public_key() {
@@ -165,8 +165,7 @@ public class func {
 
 	public void add_block(String pw, String ip, String name, String id) {
 		ArrayList<String> file_name = new ArrayList<String>();
-		file_name = (ArrayList<String>) get_file_name(get_chain());
-		System.out.println(file_name);
+		file_name = (ArrayList<String>) get_file_name(get_index());
 		String prev_hash = (String) file_name.get(file_name.size() - 1);
 		int file_count = get_block_count();
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis() / 1000);
@@ -199,29 +198,49 @@ public class func {
 				count--;
 			}
 			System.arraycopy(id_byte, 0, file, 224, 10);
-			fos = new FileOutputStream("block\\" + sha256(file));
+			String File_sha256=sha256(file);
+			fos = new FileOutputStream("block\\" + File_sha256);
 			fos.write(file);
 			fos.close();
-			
-			fos=new FileOutputStream("block\\index");
 			byte[] temp=get_index();
 			byte[] index_byte=new byte[temp.length+64];
-			String test=sha256(file);
 			System.arraycopy(temp, 0, index_byte, 0, temp.length);
-			System.arraycopy(test, 0, index_byte, (file_count*64)+4, 64);
+			System.arraycopy(File_sha256.getBytes(), 0, index_byte, (file_count*64)+4, 64);
 			file_count+=1;
-			System.arraycopy(Integer.toString(file_count, 16), 0, index_byte, 0, 4);
-			System.out.println("==============file=====================");
-			for (byte b : index_byte) {
-				System.out.print(b+" ");
-			}
-			System.out.println("\n===========================================");
+			System.arraycopy(ByteBuffer.allocate(4).putInt(file_count).array(), 0, index_byte, 0, 4);
+			fos=new FileOutputStream("block\\index");
 			fos.write(index_byte);
 			fos.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+	}
+	
+	public String Search_Block(String id, String passwd) {
+		
+		List<String> file_names=get_file_name(get_index());
+		String file_hash="";
+		byte[] chain_id = new byte[10], chain_pw=new byte[128];
+		for (String fn : file_names) {
+			try {
+				fis=new FileInputStream("block\\"+fn);
+				fis.skip(68);
+				fis.read(chain_pw, 0, 128);
+				fis.skip(28);
+				fis.read(chain_id, 0, 10);
+				if(id.equals(new String(chain_id).trim()) &&new String(sha512(passwd)).equals(new String(chain_pw))) {
+					file_hash=fn;
+					break;
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return file_hash;
+		
 	}
 
 	byte[] en_packet(byte[] msg) {
@@ -239,7 +258,7 @@ public class func {
 
 		return msg;
 	}
-
+	
 	private static byte[] hexStringToByteArray(String s) {
 		int len = s.length();
 		byte[] data = new byte[len / 2];
@@ -269,10 +288,10 @@ public class func {
 		count = 0;
 		try {
 			int i = 4;
-			int count = (byteToint(substr_byte(chain, 0, 3)) * 63) + 4;
+			int count = (byteToint(substr_byte(chain, 0, 3)) * 64);
 			while (i < count) {
 				file_name.add(new String(substr_byte(chain, i, i + 63)));
-				i += 63;
+				i += 64;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -307,21 +326,19 @@ public class func {
 		try {
 			syn_file_name = get_file_name(SYN_chain);
 			local_file_name = get_file_name(local_chain);
-			if (local_file_name.get(0) == syn_file_name.get(0)) {
+			if (local_file_name.get(0).equals(syn_file_name.get(0))) {
 				file_count = syn_file_name.size();
 				for (Object fn : syn_file_name) {
-					count++;
-					temp = substr_byte(SYN_chain, (count * 234) + 4 + (file_count * 64),
-							((count + 1) * 234) + 4 + (file_count * 64));
-					if (!fn.equals(sha256(temp).toString()))
+					temp = substr_byte(SYN_chain, (count * 234) +(file_count * 64)+4,
+							((count + 1) * 234) + 3 + (file_count * 64));
+					if (!fn.equals(sha256(temp)))
 						return false;
-
-					if (count != 1) {
-						if (!prev_hash.equals(substr_byte(temp, (count * 234) + 8 + (file_count * 64),
-								(count * 234) + 72 + (file_count * 64))))
+					if (count != 0) {
+						if (!prev_hash.equals(new String(substr_byte(temp, 4, 67))))
 							return false;
 					}
 					prev_hash = (String) fn;
+					count++;
 				}
 				return true;
 			}
@@ -370,27 +387,14 @@ public class func {
 			chain = new byte[temp.length + (byteToint(substr_byte(temp, 0, 3)) * 234)];
 			System.arraycopy(temp, 0, chain, count, temp.length);
 			count += temp.length;
-			System.out.println("==============chain=====================");
-			for (byte b : chain) {
-				System.out.print(b+" ");
-			}
-			System.out.println("\n===========================================");
 			List<String> file_name = new ArrayList<String>();
 			file_name = get_file_name(temp);
-			for (String string : file_name) {
-				System.out.println(string);
-			}
 			for (String fn : file_name) {
 				fis = new FileInputStream("block\\" + fn);
 				temp = new byte[234];
 				fis.read(temp);
 				System.arraycopy(temp, 0, chain, count, 234);
 				count += temp.length;
-				System.out.println("==============chain=====================");
-				for (byte b : chain) {
-					System.out.print(b+" ");
-				}
-				System.out.println("\n===========================================");
 				fis.close();
 			}
 		} catch (Exception e) {
@@ -411,11 +415,14 @@ public class func {
 		int file_count = file_name.size();
 		for (Object fn : file_name) {
 			try {
-				count++;
-				fos = new FileOutputStream("src/block/" + fn);
-				fos.write(substr_byte(chain, (count * 234) + 4 + (file_count * 64),
-						((count + 1) * 234) + 4 + (file_count * 64)));
+				fos = new FileOutputStream("block\\index");
+				fos.write(chain,0,(file_count*64)+4);
 				fos.close();
+				fos = new FileOutputStream("block\\" + fn);
+				fos.write(substr_byte(chain, (count * 234) + (file_count * 64) + 4,
+						((count + 1) * 234) + 3 + (file_count * 64)));
+				fos.close();
+				count++;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
